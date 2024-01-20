@@ -2,10 +2,10 @@
 
 #include "State.hpp"
 
-class PlantState : public State
+class PlantedState : public State
 {
 public:
-    PlantState(Hardware const& hw, StateMachine& state);
+    PlantedState(Hardware const& hw, StateMachine& state);
 
     void update() override;
     void render() override;

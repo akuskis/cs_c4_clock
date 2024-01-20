@@ -2,7 +2,7 @@
 
 
 SetAlarmState::SetAlarmState(Hardware const& hw, StateMachine& state)
-    : State(hw, state)
+  : State(hw, state)
 {
     hw.lcd.clear();
 }

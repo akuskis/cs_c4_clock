@@ -1,7 +1,6 @@
-#include "PlantState.hpp"
+#include "PlantedState.hpp"
 
 #include "ClockState.hpp"
-#include "PlantedState.hpp"
 
 namespace
 {
@@ -9,19 +8,19 @@ int const CODE_SIZE = 7;
 char const CODE[CODE_SIZE + 1] = "7355608";
 } // namespace
 
-PlantState::PlantState(Hardware const& hw, StateMachine& state)
+PlantedState::PlantedState(Hardware const& hw, StateMachine& state)
   : State(hw, state)
 {
     hw.lcd.clear();
 
     hw.lcd.setCursor(0, 0);
-    hw.lcd.print("--- PLANTING ---");
+    hw.lcd.print("Count down: ");
 
     hw.lcd.setCursor(0, 1);
-    hw.lcd.print("CODE:");
+    hw.lcd.print("Defuse:");
 }
 
-void PlantState::update()
+void PlantedState::update()
 {
     auto const key = hw().keypad.getKey();
 
@@ -45,23 +44,26 @@ void PlantState::update()
     }
 }
 
-void PlantState::render()
+void PlantedState::render()
 {
-    hw().lcd.setCursor(6, 1);
+    hw().lcd.setCursor(8, 1);
     hw().lcd.print(str);
 }
 
-void PlantState::handle_value_(byte key)
+void PlantedState::handle_value_(byte key)
 {
     if (CODE[index_] == key)
     {
         str[++index_] = key;
 
         if (index_ == sizeof(CODE) - 1)
-            state().replace(new PlantedState(hw(), state()));
+        {
+            // TODO: play difused
+            state().replace(new ClockState(hw(), state()));
+        }
     }
     else
     {
-        state().replace(new PlantState(hw(), state()));
+        state().replace(new PlantedState(hw(), state()));
     }
 }

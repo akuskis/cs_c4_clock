@@ -6,14 +6,10 @@
 #include "SetTimeState.hpp"
 
 int const OPTIONS_COUNT = 3;
-char const OPTIONS[OPTIONS_COUNT][16] = {
-    "Plant bomb",
-    "Set Alarm",
-    "Set Current Time"
-};
+char const OPTIONS[OPTIONS_COUNT][16] = {"Plant bomb", "Set Alarm", "Set Current Time"};
 
 MenuState::MenuState(Hardware const& hw, StateMachine& state)
-    : State(hw, state)
+  : State(hw, state)
 {
     hw.lcd.clear();
 }
@@ -22,7 +18,8 @@ void MenuState::update()
 {
     auto const key = hw().keypad.getKey();
 
-    switch (key) {
+    switch (key)
+    {
     case '2':
         index_ = (index_ == 0) ? OPTIONS_COUNT - 1 : index_ - 1;
         hw().lcd.clear();
@@ -61,6 +58,6 @@ void MenuState::select_item_()
         break;
     case 2:
         state().replace(new SetTimeState(hw(), state()));
-        break;        
+        break;
     }
 }

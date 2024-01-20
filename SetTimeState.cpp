@@ -8,17 +8,21 @@ byte get_byte(char const* arr, int a, int b)
 {
     return (arr[a] - '0') * 10 + (arr[b] - '0');
 }
-}
+} // namespace
 
 SetTimeState::SetTimeState(Hardware const& hw, StateMachine& state)
-    : State(hw, state)
+  : State(hw, state)
 {
     hw.lcd.clear();
+
+    hw.lcd.setCursor(0, 0);
+    hw.lcd.print("--- set time ---");
 }
 
 void SetTimeState::update()
 {
     auto const key = hw().keypad.getKey();
+
     switch (key)
     {
     case '#':
@@ -41,9 +45,6 @@ void SetTimeState::update()
 
 void SetTimeState::render()
 {
-    hw().lcd.setCursor(0, 0);
-    hw().lcd.print("--- set time ---");
-
     hw().lcd.setCursor(4, 1);
     hw().lcd.print(str);
 }
@@ -69,6 +70,6 @@ void SetTimeState::apply_time_()
     hw().rtc.setHour(h);
     hw().rtc.setMinute(m);
     hw().rtc.setSecond(s);
-    
+
     state().replace(new ClockState(hw(), state()));
 }
