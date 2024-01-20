@@ -1,6 +1,7 @@
 #include "PlantedState.hpp"
 
 #include "ClockState.hpp"
+#include "sound.hpp"
 
 namespace
 {
@@ -26,9 +27,6 @@ void PlantedState::update()
 
     switch (key)
     {
-    case '#':
-        state().replace(new ClockState(hw(), state()));
-        break;
     case '0':
     case '1':
     case '2':
@@ -54,11 +52,11 @@ void PlantedState::handle_value_(byte key)
 {
     if (CODE[index_] == key)
     {
-        str[++index_] = key;
+        str[index_++] = key;
 
         if (index_ == sizeof(CODE) - 1)
         {
-            // TODO: play difused
+            sound::play_difused(hw().mp3);
             state().replace(new ClockState(hw(), state()));
         }
     }

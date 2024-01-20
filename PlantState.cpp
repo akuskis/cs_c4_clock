@@ -2,6 +2,7 @@
 
 #include "ClockState.hpp"
 #include "PlantedState.hpp"
+#include "sound.hpp"
 
 namespace
 {
@@ -19,6 +20,8 @@ PlantState::PlantState(Hardware const& hw, StateMachine& state)
 
     hw.lcd.setCursor(0, 1);
     hw.lcd.print("CODE:");
+
+    sound::play_charging(hw.mp3);
 }
 
 void PlantState::update()
@@ -55,10 +58,17 @@ void PlantState::handle_value_(byte key)
 {
     if (CODE[index_] == key)
     {
-        str[++index_] = key;
+        str[index_++] = key;
 
         if (index_ == sizeof(CODE) - 1)
+        {
+            sound::play_planted(hw().mp3);
             state().replace(new PlantedState(hw(), state()));
+        }
+        else
+        {
+            sound::play_click(hw().mp3);
+        }
     }
     else
     {

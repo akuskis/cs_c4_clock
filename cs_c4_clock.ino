@@ -39,6 +39,13 @@ void initialize_audio()
     mp3.write(0x35);
     mp3.write(0x01);
     mp3.write(0xEF);
+
+    // Volume
+    mp3.write(0x7E);
+    mp3.write(0x03);
+    mp3.write(0x31);
+    mp3.write(0x0F);
+    mp3.write(0xEF);
 }
 
 void initialize_lcd()
