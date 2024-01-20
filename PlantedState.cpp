@@ -8,10 +8,15 @@ namespace
 int const CODE_SIZE = 7;
 char const CODE[CODE_SIZE + 1] = "7355608";
 char const* const HIDDEN_CODE = "*******";
+
+unsigned long const DURATION_MS = 20000;
 } // namespace
 
 PlantedState::PlantedState(Hardware const& hw, StateMachine& state)
-  : State(hw, state)
+  : State(hw, state),
+    started_(millis()),
+    deadline_(started_ + DURATION_MS),
+    next_beep_(started_ + 3000)
 {
     strcpy(str, HIDDEN_CODE);
 
@@ -28,20 +33,26 @@ void PlantedState::update()
 {
     auto const key = hw().keypad.getKey();
 
-    switch (key)
-    {
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
+    if ('0' <= key && key <= '9')
         handle_value_(key);
-        break;
+
+    auto current = millis();
+
+    if (current > deadline_)
+    {
+        sound::play_boom(hw().mp3);
+        state().replace(new ClockState(hw(), state()));
+    }
+
+    if (current > next_beep_)
+    {
+        sound::play_beep(hw().mp3);
+        if (deadline_ - current < 2000)
+            next_beep_ = deadline_;
+        else if (deadline_ - current < 6000)
+            next_beep_ = current + 600;
+        else
+            next_beep_ = current + (deadline_ - current) / 10;
     }
 }
 
