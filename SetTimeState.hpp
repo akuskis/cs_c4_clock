@@ -9,4 +9,11 @@ public:
 
     void update() override;
     void render() override;
+
+private:
+    int index_ = 0;
+    char str[9] = "__:__:__";
+
+    void handle_value_(char v);
+    void apply_time_();
 };
