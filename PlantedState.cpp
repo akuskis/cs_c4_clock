@@ -7,11 +7,14 @@ namespace
 {
 int const CODE_SIZE = 7;
 char const CODE[CODE_SIZE + 1] = "7355608";
+char const* const HIDDEN_CODE = "*******";
 } // namespace
 
 PlantedState::PlantedState(Hardware const& hw, StateMachine& state)
   : State(hw, state)
 {
+    strcpy(str, HIDDEN_CODE);
+
     hw.lcd.clear();
 
     hw.lcd.setCursor(0, 0);
@@ -52,6 +55,9 @@ void PlantedState::handle_value_(byte key)
 {
     if (CODE[index_] == key)
     {
+        if (index_ == 0)
+            sound::play_charging(hw().mp3);
+
         str[index_++] = key;
 
         if (index_ == sizeof(CODE) - 1)
@@ -62,6 +68,7 @@ void PlantedState::handle_value_(byte key)
     }
     else
     {
-        state().replace(new PlantedState(hw(), state()));
+        index_ = 0;
+        strcpy(str, HIDDEN_CODE);
     }
 }

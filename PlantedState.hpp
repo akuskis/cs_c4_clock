@@ -12,7 +12,7 @@ public:
 
 private:
     int index_ = 0;
-    char str[8] = "*******";
+    char str[8];
 
     void handle_value_(byte key);
 };
