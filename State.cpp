@@ -8,7 +8,7 @@ State::State(Hardware const& hw, StateMachine& state)
 
 int State::getDelay() const
 {
-    return 500;
+    return 100;
 }
 
 Hardware const& State::hw() const

@@ -1,13 +1,19 @@
 #include "ClockState.hpp"
 
+#include "MenuState.hpp"
+
 ClockState::ClockState(Hardware const& hw, StateMachine& state)
     : State(hw, state)
 {
+    hw.lcd.clear();
 }
 
 void ClockState::update()
 {
-    // if * was pressed -> show menu
+    if (hw().keypad.getKey() == '*')
+    {
+        state().replace(new MenuState(hw(), state()));
+    }
 }
 
 void ClockState::render()
