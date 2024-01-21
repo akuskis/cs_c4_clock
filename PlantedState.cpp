@@ -9,7 +9,7 @@ int const CODE_SIZE = 7;
 char const CODE[CODE_SIZE + 1] = "7355608";
 char const* const HIDDEN_CODE = "*******";
 
-unsigned long const DURATION_MS = 20000;
+unsigned long const DURATION_MS = 40000;
 } // namespace
 
 PlantedState::PlantedState(Hardware const& hw, StateMachine& state)
@@ -43,14 +43,13 @@ void PlantedState::update()
         sound::play_boom(hw().mp3);
         state().replace(new ClockState(hw(), state()));
     }
-
-    if (current > next_beep_)
+    else if (current > next_beep_)
     {
         sound::play_beep(hw().mp3);
         if (deadline_ - current < 2000)
             next_beep_ = deadline_;
-        else if (deadline_ - current < 6000)
-            next_beep_ = current + 600;
+        else if (deadline_ - current < 10000)
+            next_beep_ = current + 1000;
         else
             next_beep_ = current + (deadline_ - current) / 10;
     }
