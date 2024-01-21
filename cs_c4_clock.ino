@@ -18,10 +18,10 @@ SoftwareSerial mp3(MP3_TX_PIN, MP3_RX_PIN);
 byte const ROWS = 4;
 byte const COLS = 3;
 char const KEYS[ROWS][COLS] = {
-    {'1', '2', '3'},
-    {'4', '5', '6'},
-    {'7', '8', '9'},
-    {'*', '0', '#'},
+  {'1', '2', '3'},
+  {'4', '5', '6'},
+  {'7', '8', '9'},
+  {'*', '0', '#'},
 };
 byte const ROW_PINS[ROWS] = {5, 4, 3, 2};
 byte const COL_PINS[COLS] = {11, 9, 8};
@@ -38,13 +38,6 @@ void initialize_audio()
     mp3.write(0x03);
     mp3.write(0x35);
     mp3.write(0x01);
-    mp3.write(0xEF);
-
-    // Volume
-    mp3.write(0x7E);
-    mp3.write(0x03);
-    mp3.write(0x31);
-    mp3.write(0x0F);
     mp3.write(0xEF);
 }
 

@@ -4,6 +4,7 @@
 #include "PlantState.hpp"
 #include "SetAlarmState.hpp"
 #include "SetTimeState.hpp"
+#include "sound.hpp"
 
 int const OPTIONS_COUNT = 3;
 char const OPTIONS[OPTIONS_COUNT][16] = {"Plant bomb", "Set Alarm", "Set Current Time"};
@@ -24,9 +25,18 @@ void MenuState::update()
         index_ = (index_ == 0) ? OPTIONS_COUNT - 1 : index_ - 1;
         hw().lcd.clear();
         break;
+    case '3':
+        sound::set_high_volume(hw().mp3);
+        break;
+    case '6':
+        sound::set_mid_volume(hw().mp3);
+        break;
     case '8':
         index_ = (index_ + 1) % OPTIONS_COUNT;
         hw().lcd.clear();
+        break;
+    case '9':
+        sound::set_low_volume(hw().mp3);
         break;
     case '*':
         select_item_();

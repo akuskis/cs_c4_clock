@@ -67,7 +67,10 @@ void PlantedState::handle_value_(byte key)
     if (CODE[index_] == key)
     {
         if (index_ == 0)
+        {
             sound::play_charging(hw().mp3);
+            next_beep_ = millis() + 1600;
+        }
 
         str[index_++] = key;
 

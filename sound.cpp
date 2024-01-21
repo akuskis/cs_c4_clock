@@ -1,5 +1,12 @@
 #include "sound.hpp"
 
+#include <Arduino.h>
+
+namespace
+{
+int const CMD_DELAY = 100;
+}
+
 void sound::play_charging(SoftwareSerial& mp3)
 {
     mp3.write(0x7E);
@@ -58,4 +65,40 @@ void sound::play_boom(SoftwareSerial& mp3)
     mp3.write(0x01);
     mp3.write(0x06);
     mp3.write(0xEF);
+}
+
+void sound::set_low_volume(SoftwareSerial& mp3)
+{
+    mp3.write(0x7E);
+    mp3.write(0x03);
+    mp3.write(0x31);
+    mp3.write(0x0E);
+    mp3.write(0xEF);
+
+    delay(CMD_DELAY);
+    play_click(mp3);
+}
+
+void sound::set_mid_volume(SoftwareSerial& mp3)
+{
+    mp3.write(0x7E);
+    mp3.write(0x03);
+    mp3.write(0x31);
+    mp3.write(0x19);
+    mp3.write(0xEF);
+
+    delay(CMD_DELAY);
+    play_click(mp3);
+}
+
+void sound::set_high_volume(SoftwareSerial& mp3)
+{
+    mp3.write(0x7E);
+    mp3.write(0x03);
+    mp3.write(0x31);
+    mp3.write(0x5F);
+    mp3.write(0xEF);
+
+    delay(CMD_DELAY);
+    play_click(mp3);
 }
