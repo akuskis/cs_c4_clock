@@ -10,4 +10,4 @@ Arduino has a very limited support of C++ (STL), kind of no support... So this i
 
 ### Example
 
-... add when device will be ready
+https://github.com/akuskis/cs_c4_clock/assets/3109998/6f1ef4b5-99af-45ef-b203-fc7b45ed1ed9
